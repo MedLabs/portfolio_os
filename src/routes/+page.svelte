@@ -53,6 +53,6 @@
 		<Terminal />
 	{/if}
 	{#if isRunning('files')}
-		<Files />
+		<Files on:toggle={toggleApp('files')} />
 	{/if}
 </div>

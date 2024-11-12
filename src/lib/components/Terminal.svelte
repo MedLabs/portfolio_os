@@ -19,9 +19,11 @@
 
 <div
 	bind:this={terminal}
-	class={`w-[30vw] h-[30vh] absolute bg-neutral-800 rounded-lg border-2 border-neutral-700 shadow active:cursor-move z-10 `}
+	class={`w-[30vw] h-[30vh] absolute bg-neutral-800 rounded-lg border-2 border-neutral-700 shadow `}
 >
-	<div class="flex justify-start h-8 p-2 items-center text-white border-b border-neutral-600">
+	<div
+		class="flex justify-start h-8 p-2 items-center text-white border-b border-neutral-600 active:cursor-move"
+	>
 		<div class="w-4 h-4 bg-red-400 rounded-full mr-1"></div>
 		<div class="w-4 h-4 bg-orange-400 rounded-full mr-1"></div>
 		<div class="w-4 h-4 bg-green-400 rounded-full mr-1"></div>

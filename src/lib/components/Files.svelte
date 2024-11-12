@@ -69,7 +69,7 @@
 	}
 </script>
 
-<div id="files" bind:this={files} class={`w-[50vw] h-[40vh] flex justify-start absolute shadow `}>
+<div id="files" bind:this={files} class={`w-[45vw] h-[40vh] flex justify-start absolute shadow `}>
 	<!-- sidebar -->
 	<div class="h-full w-1/5 bg-neutral-100/75 backdrop-blur-md pt-2 rounded-tl-lg rounded-bl-lg">
 		<div class="flex justify-start h-8 p-2 items-center text-white active:cursor-move">

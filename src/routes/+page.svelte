@@ -32,7 +32,6 @@
 	let visibleApps = $state<string[]>([]);
 
 	function toggleApp(app: string): void {
-		console.log(app);
 		if (!isRunning(app)) {
 			visibleApps.push(app);
 		} else {
@@ -48,11 +47,14 @@
 <div
 	class=" flex justify-center h-screen w-screen bg-gradient-to-br from-10% from-indigo-500 via-sky-500 via-30% to-emerald-500 to-90%"
 >
+	<a href="https://github.com/medlabs/portfolio_os.git" class="w-full text-white/50 p-2"
+		>Svelte Version</a
+	>
 	<Panel {apps} {toggleApp} />
 	{#if isRunning('terminal')}
-		<Terminal />
+		<Terminal toggle={toggleApp} runApp={toggleApp} />
 	{/if}
 	{#if isRunning('files')}
-		<Files on:toggle={toggleApp('files')} />
+		<Files toggle={toggleApp} />
 	{/if}
 </div>

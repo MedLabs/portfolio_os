@@ -14,4 +14,4 @@ All the apps in the Portfolio OS are interactive and contain informations.
 
 
 ### SolidJs version:  
-(Portfolio_os_solidjs)["https:github.com/medlabs/Portfolio_os_solidjs.git"]
+[Portfolio_os_solidjs]("https:github.com/medlabs/Portfolio_os_solidjs.git")

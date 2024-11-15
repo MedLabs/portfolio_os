@@ -7,6 +7,7 @@ All the apps in the Portfolio OS are interactive and contain informations.
 
 ### TODO:
 [X] Add icons to Files shortcuts  
+[X] Add Contact App
 [ ] Add Top bar (with date and time, some icons...)  
 [ ] Add Projects to Files app  
 [ ] Add Blog app  

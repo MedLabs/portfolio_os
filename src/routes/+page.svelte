@@ -2,6 +2,7 @@
 	import Panel from '$lib/components/Panel.svelte';
 	import Terminal from '$lib/components/Terminal.svelte';
 	import Files from '$lib/components/Files.svelte';
+	import Email from '$lib/components/Email.svelte';
 
 	const apps = $state([
 		{
@@ -14,7 +15,7 @@
 			title: 'Files',
 			value: 'files',
 			running: false,
-			icon: 'vscode-icons:default-folder-opened'
+			icon: 'fluent-emoji-flat:card-file-box'
 		},
 		{
 			title: 'Stacks',
@@ -27,6 +28,12 @@
 			value: 'blog',
 			running: false,
 			icon: 'vscode-icons:file-type-rss'
+		},
+		{
+			title: 'Contact',
+			value: 'email',
+			running: false,
+			icon: 'fluent-emoji-flat:e-mail'
 		}
 	]);
 	let visibleApps = $state<string[]>([]);
@@ -45,10 +52,11 @@
 </script>
 
 <div
-	class=" flex justify-center h-screen w-screen bg-gradient-to-br from-10% from-indigo-500 via-sky-500 via-30% to-emerald-500 to-90%"
+	class=" flex justify-center h-screen w-screen bg-gradient-to-br from-10% from-indigo-500 via-violet-700 via-30% to-pink-700 to-90%"
 >
-	<a href="https://github.com/medlabs/portfolio_os.git" class="w-full text-white/50 p-2"
-		>Svelte Version</a
+	<a
+		href="https://github.com/medlabs/portfolio_os.git"
+		class="w-fit absolute left-0 text-white/50 p-2">Svelte Version</a
 	>
 	<Panel {apps} {toggleApp} />
 	{#if isRunning('terminal')}
@@ -56,5 +64,8 @@
 	{/if}
 	{#if isRunning('files')}
 		<Files toggle={toggleApp} />
+	{/if}
+	{#if isRunning('email')}
+		<Email toggle={toggleApp} />
 	{/if}
 </div>

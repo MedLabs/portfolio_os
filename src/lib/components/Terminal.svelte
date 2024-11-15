@@ -27,10 +27,10 @@
 	function maximize(element: string) {
 		windowMaximized = true;
 		let div = document.getElementById(element);
+		div?.classList.remove('w-[40vw]');
+		div?.classList.remove('h-[45vh]');
 		div?.classList.add('w-screen');
 		div?.classList.add('h-screen');
-		div?.classList.remove('w-[50vw]');
-		div?.classList.remove('h-[40vh]');
 		div!.style.left = '0px';
 		div!.style.top = '0px';
 	}
@@ -39,13 +39,13 @@
 		let div = document.getElementById(element);
 		div?.classList.remove('w-screen');
 		div?.classList.remove('h-screen');
-		div?.classList.add('w-[45vw]');
-		div?.classList.add('h-[40vh]');
+		div?.classList.add('w-[40vw]');
+		div?.classList.add('h-[45vh]');
 		div!.style.top = `${terminalPos.top}px`;
 		div!.style.left = `${terminalPos.left}px`;
 	}
 	function closeAndMinimize() {
-		toggle('files');
+		toggle('terminal');
 	}
 
 	function runCmd(e: KeyboardEvent) {
@@ -64,6 +64,12 @@
 				runApp('files');
 				return;
 			}
+			if (cmd === '/email') {
+				history.push(`<span class="text-lime-500">medlabs~$</span> ${cmd}`);
+				cmd = '';
+				runApp('email');
+				return;
+			}
 			history.push(`<span class="text-lime-500">medlabs~$</span> ${cmd}`);
 			history.push(shell(cmd));
 
@@ -73,11 +79,12 @@
 </script>
 
 <div
+	id="terminal"
 	bind:this={terminal}
 	class={`w-[40vw] h-[45vh] absolute bg-neutral-800 rounded-lg border-2 border-neutral-700 shadow overflow-auto `}
 >
 	<div
-		class="flex justify-start h-8 p-2 items-center text-white border-b border-neutral-600 active:cursor-move"
+		class="flex justify-start h-8 p-2 items-center text-white border-b border-neutral-600 active:cursor-grabbing"
 	>
 		<button
 			class="flex w-4 h-4 bg-red-400 rounded-full mr-1 justify-center items-center"
@@ -90,7 +97,7 @@
 		</button>
 		<button
 			class="flex justify-center items-center w-4 h-4 bg-green-400 rounded-full mr-1"
-			onclick={() => (windowMaximized ? restore('files') : maximize('files'))}
+			onclick={() => (windowMaximized ? restore('terminal') : maximize('terminal'))}
 			>{#if windowMaximized}
 				<Icon icon="carbon:minimize" class="text-xs" />
 			{:else}

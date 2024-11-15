@@ -55,10 +55,10 @@
 	function maximize(element: string) {
 		windowMaximized = true;
 		let div = document.getElementById(element);
+		div?.classList.remove('w-[45vw]');
+		div?.classList.remove('h-[50vh]');
 		div?.classList.add('w-screen');
 		div?.classList.add('h-screen');
-		div?.classList.remove('w-[50vw]');
-		div?.classList.remove('h-[40vh]');
 		div!.style.left = '0px';
 		div!.style.top = '0px';
 	}
@@ -68,7 +68,7 @@
 		div?.classList.remove('w-screen');
 		div?.classList.remove('h-screen');
 		div?.classList.add('w-[45vw]');
-		div?.classList.add('h-[40vh]');
+		div?.classList.add('h-[50vh]');
 		div!.style.top = `${filesPos.top}px`;
 		div!.style.left = `${filesPos.left}px`;
 	}
@@ -77,10 +77,10 @@
 	}
 </script>
 
-<div id="files" bind:this={files} class={`w-[45vw] h-[40vh] flex justify-start absolute shadow `}>
+<div id="files" bind:this={files} class={`w-[45vw] h-[50vh] flex justify-start absolute shadow `}>
 	<!-- sidebar -->
 	<div
-		class={`h-full ${windowMaximized ? 'w-1/5' : 'w-1/3'} bg-neutral-100/75 backdrop-blur-md pt-2 rounded-tl-lg rounded-bl-lg`}
+		class={`h-full ${windowMaximized ? 'w-1/5' : 'w-1/3'} bg-neutral-100/75 backdrop-blur-md pt-2 ${!windowMaximized ? 'rounded-tl-lg rounded-bl-lg' : ''}`}
 	>
 		<div class="flex justify-start h-8 p-2 items-center text-white active:cursor-move">
 			<button
@@ -104,7 +104,7 @@
 		</div>
 		{#each shortcuts as s}
 			<div
-				class="flex jsutify-start items-center text-sm w-full text-neutral-800 p-1 hover:bg-neutral-100/25 hover:cursor-default"
+				class={`flex jsutify-start items-center text-sm w-full text-neutral-800 p-1 hover:bg-neutral-100/25 hover:cursor-default ${selectedPage === s.value ? 'bg-neutral-400/25' : ''}`}
 				role="button"
 				onclick={() => (selectedPage = s.value)}
 			>
@@ -113,13 +113,29 @@
 		{/each}
 	</div>
 	<!-- icons OR lines -->
-	<div class="flex flex-col bg-neutral-100 w-full h-full rounded-tr-lg rounded-br-lg">
+	<div
+		class={`flex flex-col bg-neutral-100 w-full h-full ${!windowMaximized ? 'rounded-tr-lg rounded-br-lg' : ''} `}
+	>
 		<div
-			class="flex h-10 p-2 items-center rounded-tr-lg text-white border-b border-neutral-300 bg-neutral-200 active:cursor-move"
+			class="flex justify-between h-10 p-2 items-center rounded-tr-lg text-white border-b border-neutral-300 bg-neutral-200 active:cursor-grabbing"
 		>
-			<Icon icon="carbon:chevron-left" class="text-2xl text-neutral-700" />
-			<Icon icon="carbon:chevron-right" class="ml-2 text-2xl text-neutral-700" />
-			<div class="ml-4 text-neutral-700 text-center font-bold">Files</div>
+			<div class="flex">
+				<Icon icon="carbon:chevron-left" class="text-2xl text-neutral-700" />
+				<Icon icon="carbon:chevron-right" class="ml-2 text-2xl text-neutral-700" />
+				<div class="ml-4 text-neutral-700 text-center font-bold">
+					{shortcuts.find((i) => i.value === selectedPage)!.title}
+				</div>
+				<Icon icon="carbon:list" class="ml-2 text-2xl text-neutral-700" />
+				<Icon icon="carbon:chevron-sort" class="ml-2 text-2xl text-neutral-700" />
+			</div>
+			<div class="flex">
+				<Icon icon="carbon:information" class="ml-2 text-2xl text-neutral-700" />
+				<Icon icon="carbon:overflow-menu-horizontal" class="ml-2 text-2xl text-neutral-700" />
+			</div>
+			<div class="flex">
+				<Icon icon="carbon:chevron-down" class="ml-2 text-2xl text-neutral-700" />
+				<Icon icon="carbon:search" class="ml-2 text-2xl text-neutral-700" />
+			</div>
 		</div>
 		<!-- Empty folder -->
 		{#if selectedPage !== 'projects'}

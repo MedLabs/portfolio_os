@@ -4,7 +4,7 @@ export function shell(cmd: string): string {
   }
   switch (cmd.trim()) {
     case "/help":
-      return "Available commands: whoami, ls, cat, /files, /blog, /clear";
+      return "Available commands: whoami, ls, cat, /files, /email, /blog, /clear";
     case "whoami":
       return "Medlabs, Fullstack Developer, Web Scraper, SysAdmin since 2004";
     case "ls":

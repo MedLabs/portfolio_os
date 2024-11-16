@@ -4,14 +4,18 @@
 	import { onDestroy, onMount } from 'svelte';
 	import { shell } from '../utils/shell';
 
-	let terminal: HTMLDivElement;
-	let cmd = $state<string>('');
-	let history = $state<string[]>([]);
-	let windowMaximized = $state<boolean>(false);
 	const { toggle, runApp } = $props<{
 		toggle: (param: string) => void;
 		runApp: (app: string) => void;
 	}>();
+
+	let terminal: HTMLDivElement;
+	const prompt = "<span class='text-lime-500'>medlabs~$</span> ";
+	let cmd = $state<string>('');
+	let cmdInput: HTMLInputElement;
+	let history = $state<string[]>([]);
+	let onlyCmds = $derived<string[]>(history.filter((i) => i.startsWith(prompt)));
+	let windowMaximized = $state<boolean>(false);
 
 	let terminalPos = $state({ top: window.innerHeight / 2, left: window.innerWidth / 3 });
 	onMount(() => {
@@ -20,6 +24,26 @@
 			terminalPos.left = Math.random() * (window.innerWidth - terminal.offsetWidth);
 			terminal.style.top = `${terminalPos.top}px`;
 			terminal.style.left = `${terminalPos.left}px`;
+			if (cmdInput) {
+				let idx = $state(onlyCmds.length > 0 ? onlyCmds.length - 1 : 0);
+				cmdInput!.addEventListener('keydown', (event) => {
+					if (event.key === 'ArrowUp') {
+						if (idx === 1) {
+							cmd = onlyCmds[0].slice(prompt.length);
+							return;
+						}
+						idx -= 1;
+						cmd = onlyCmds[idx].slice(prompt.length);
+					} else if (event.key === 'ArrowDown') {
+						if (idx === Number(onlyCmds.length - 2)) {
+							cmd = '';
+							return;
+						}
+						idx += 1;
+						cmd = onlyCmds[idx].slice(prompt.length);
+					}
+				});
+			}
 		}
 		const cleanup = dnd(terminal);
 		onDestroy(() => cleanup);
@@ -53,29 +77,31 @@
 			if (shell(cmd) === '') {
 				return;
 			}
-			if (shell(cmd) === 'C') {
+			if (cmd === 'clear') {
 				history = [];
 				cmd = '';
 				return;
 			}
 			if (cmd === '/files') {
-				history.push(`<span class="text-lime-500">medlabs~$</span> ${cmd}`);
+				history.push(`${prompt}${cmd}`);
 				cmd = '';
 				runApp('files');
 				return;
 			}
 			if (cmd === '/email') {
-				history.push(`<span class="text-lime-500">medlabs~$</span> ${cmd}`);
+				history.push(`${prompt}${cmd}`);
 				cmd = '';
 				runApp('email');
 				return;
 			}
-			history.push(`<span class="text-lime-500">medlabs~$</span> ${cmd}`);
+			history.push(`${prompt}${cmd}`);
 			history.push(shell(cmd));
-
 			cmd = '';
 		}
 	}
+	$effect(() => {
+		$inspect(onlyCmds.map((i) => i.slice(prompt.length)));
+	});
 </script>
 
 <div
@@ -106,7 +132,7 @@
 		</button>
 		<div class="ml-4 text-neutral-100 text-center">Terminal</div>
 	</div>
-	<div class="grid pt-2 px-2">
+	<div class="grid pt-2 px-2 font-mono">
 		<p class="text-neutral-500 w-full"># type /help for Help</p>
 		{#each history as h}
 			<p class="text-white">{@html h}</p>
@@ -114,6 +140,7 @@
 		<div class="flex justify-start items-center">
 			<span class="text-lime-500">medlabs~$</span>
 			<input
+				bind:this={cmdInput}
 				class="border-0 bg-transparent w-full p-2 text-white z-max outline-none"
 				type="text"
 				bind:value={cmd}

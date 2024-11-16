@@ -12,8 +12,11 @@ All the apps in the Portfolio OS are interactive and contain informations.
 [ ] Add Projects to Files app  
 [ ] Add Blog app  
 [ ] Add Help App  
-[ ] Make Panel auto Hideable when a window is maximized and slides up when cursor is near it.
-[ ] Fix windows focus when active
+[ ] Make Panel auto Hideable when a window is maximized and slides up when cursor is near it.  
+[ ] Fix windows focus when active  
+[ ] Make windows resizeable  
+[ ] Integrate a real shell  
+[ ] Fix ArrowUp and ArrowDown events in Terminal
 
 
 ### SolidJs version:  

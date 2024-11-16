@@ -1,6 +1,11 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	let { children, text } = $props<{ children: () => void; text: string }>();
+	let {
+		children,
+		text,
+		position = 'top',
+		size = ''
+	} = $props<{ children: () => void; text: string; position: string; size: string }>();
 
 	let visible = $state(false);
 
@@ -35,7 +40,7 @@
 	{#if visible}
 		<div
 			bind:this={tooltipRef}
-			class="absolute left-1/2 transform -translate-x-1/2 mb-8 p-2 bg-gray-700 text-white text-sm rounded bottom-full"
+			class={`absolute ${size} left-1/2 transform -translate-x-1/2 mb-8 p-2 bg-gray-700 text-white text-sm rounded ${position === 'bottom' ? 'top-full' : 'bottom-full'}`}
 		>
 			{text}
 		</div>

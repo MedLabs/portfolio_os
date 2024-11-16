@@ -2,6 +2,7 @@
 	import Icon from '@iconify/svelte';
 	import { onMount, onDestroy } from 'svelte';
 	import dnd from '$lib/utils/dnd.svelte';
+	import Tooltip from './Tooltip.svelte';
 
 	let { toggle } = $props<{ toggle: (param: string) => void }>();
 	let files: HTMLDivElement;
@@ -63,22 +64,26 @@
 				{
 					name: 'Puzzle Game',
 					icon: 'fluent-emoji-flat:video-game',
-					description: 'Do something while pooping.'
+					description: 'Do something while pooping.',
+					link: '#'
 				},
 				{
 					name: 'TodoApp',
 					icon: 'fluent-emoji-flat:bookmark-tabs',
-					description: 'Planify your day in one click'
+					description: 'Planify your day in one click',
+					link: '#'
 				},
 				{
 					name: 'VPN App',
 					icon: 'fluent-emoji-flat:shield',
-					description: 'Stop Being Tracked by NSA and other Evil groups'
+					description: 'Stop Being Tracked by NSA and other Evil groups',
+					link: '#'
 				},
 				{
 					name: 'Ninder',
 					icon: 'fluent-emoji-flat:nerd-face',
-					description: 'A Tinder Like App, for Nerds'
+					description: 'A Tinder Like App, for Nerds',
+					link: '#'
 				}
 			]
 		},
@@ -90,22 +95,26 @@
 				{
 					name: 'Vlang',
 					icon: 'vscode-icons:file-type-vlang',
-					description: 'A less ugly Web Site for the best programming language in the world.'
+					description: 'A less ugly Web Site for the best programming language in the world.',
+					link: '#'
 				},
 				{
 					name: 'MakeuseOf',
 					icon: 'vscode-icons:file-type-phraseapp',
-					description: 'New Website for MUO'
+					description: 'New Website for MUO',
+					link: '#'
 				},
 				{
 					name: 'Dentalis',
 					icon: 'fluent-emoji-flat:tooth',
-					description: 'An App falling page.'
+					description: 'An App falling page.',
+					link: 'https://dentalis.tn'
 				},
 				{
 					name: 'New HN',
 					icon: 'logos:ycombinator',
-					description: 'The new HackerNews UI'
+					description: 'The new HackerNews UI',
+					link: '#'
 				}
 			]
 		},
@@ -118,11 +127,11 @@
 					name: 'Dentalis',
 					icon: 'fluent-emoji-flat:tooth',
 					description: 'Plateform dedicated to dentists',
-					link: 'https://dentalis.tn'
+					link: 'https://demo.dentalis.tn'
 				},
 				{
 					name: 'PyTracker',
-					icon: 'token:branded:orai',
+					icon: 'token-branded:orai',
 					description: 'Vehicle detector based on intelligent model',
 					link: '#'
 				}
@@ -131,7 +140,8 @@
 		{
 			name: 'CLI tools',
 			value: 'cli',
-			icon: 'vscode-icons:folder-type-cli'
+			icon: 'vscode-icons:folder-type-cli',
+			files: []
 		}
 	];
 	function maximize(element: string) {
@@ -249,9 +259,15 @@
 					{/each}
 				{:else}
 					{#each content.find((i) => i.value === sub)!.files! as f}
-						<div class="flex flex-col w-1/4 h-1/4 items-center text-center justify-center">
-							<Icon icon={f.icon} class="text-6xl" />
-							<span class="text-sm text-neutral-700">{f.name}</span>
+						<div
+							role="button"
+							class="flex flex-col w-1/4 h-1/4 items-center text-center justify-center"
+							onclick={() => open(f.link)}
+						>
+							<Tooltip text={f.description} position="bottom" size="w-40">
+								<Icon icon={f.icon} class="text-6xl" />
+								<span class="text-sm text-neutral-700">{f.name}</span>
+							</Tooltip>
 						</div>
 					{/each}
 				{/if}
